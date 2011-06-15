@@ -1,0 +1,8 @@
+Image Broadcast v0.01
+---------------------
+
+Simple program for broadcasting images to all clients connected to the server.
+
+IMPORTANT: 
+This is experimental has very little checking for users being abuseive etc.
+

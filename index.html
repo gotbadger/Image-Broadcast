@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+
+  <title>Image Broadcast by @gotbagder</title>
+  <meta name="description" content="Node.js Test">
+  <meta name="author" content="Philip Hayton">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
+  <script src="https://raw.github.com/malsup/form/master/jquery.form.js"></script>
+  <script src="/nowjs/now.js"></script>
+    <script>
+        $(document).ready(function(){
+            now.ready(function(){
+                $("h1 span").html("Connected");
+                $("h1 span").parent().css('color','green');
+                $("h4").show("slow");
+                $("#image-form").show("slow");
+            });
+            now.core.on('disconnect', function(){
+                $("h1 span").html("Disconected");
+                $("h1 span").parent().css('color','red');
+                $("h4").hide("slow");
+                $("#image-form").hide("slow");
+            });
+            $('#image-form').ajaxForm(function() { 
+                $("#image-form").resetForm();
+                $("#image-form").hide();
+                $("#image-message").html("Data Sent").show("fast");
+                setTimeout(function(){
+                    $("#image-message").html("").hide();
+                    $("#image-form").show("fast");    
+                },2000);
+            }); 
+            
+        });
+        
+        now.updateUsers = function(users){
+            $("h4 span").html(""+users);
+            $("h4").show();
+        }
+        now.pushimage = function(data){
+            $("#image-window").prepend("<p><img src='"+data+"'/></p>");
+        }
+    </script>
+    <style>
+        #image-message{
+            border:1px solid green;
+            background-color:#C5FFAD;
+            color:green;
+            padding:20px;
+            margin:20px 0px 20px 0px;
+            font-size:1.1em;
+            display:none;
+        }
+    </style>
+</head>
+
+<body>
+
+  <div id="container">
+    <header>
+        <h1>Image Broadcast <span>Starting...</span></h1>
+        <h4 style="display:none;">Currently <span>0</span> users(s) connected</h4>
+    </header>
+    <div id="main" role="main">
+        <form style="display:none;" id="image-form" action="/put" method="post" enctype="multipart/form-data">
+            <input type="file" name="upload-file"/>
+            <input type="submit" value="Upload"/>
+        </form>
+        <div id="image-message"></div>
+        <div id="image-window">
+        </div>
+    </div>
+    <footer>
+
+    </footer>
+  </div> <!-- eo #container -->
+</body>
+</html>
